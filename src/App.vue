@@ -7,7 +7,17 @@
       <span class="iconfont position__notice">&#xe7c4;</span>
     </div>
     <!-- 搜索 -->
-    <div class="search"></div>
+    <div class="search">
+      <span class="iconfont">&#xe6ac;</span>
+      <span class="search__text">山姆会员商店优惠商品</span>
+    </div>
+    <!-- 横幅 -->
+    <div class="banner">
+      <img
+          class="banner__img"
+          src="http://www.dell-lee.com/imgs/vue3/banner.jpg"
+        />
+    </div>
   </div>
   <div class="docker">
     <div class="docker__item docker__item--active">
@@ -62,6 +72,34 @@
       font-size: .2rem;
     }
   }
+
+  .search{
+    line-height: .32rem;
+    background:#f5f5f5;
+    border-radius: .16rem;
+    color: #b7b7b7;
+    margin-bottom: .12rem;
+
+    .iconfont{
+      font-size: .15rem;
+      display: inline-block;
+      padding: 0 .08rem 0 .16rem;
+    }
+
+    &__text{
+      display: inline-block;
+      font-size: .14rem;
+    }
+  }
+
+  .banner{
+    height:0;
+    overflow: hidden;
+    padding-bottom: 25.4%;
+    &__img{
+      width: 100%;
+    }
+  }
 }
 
 .docker {
@@ -74,7 +112,6 @@
   border-top: .01rem solid #f1f1f1;
   padding: 0 .18rem;
   box-sizing: border-box;
-  /*指定的width和height属性包括填充和边框，但不包括边距*/
   color: $content-fontcolor;
 
   &__item {
