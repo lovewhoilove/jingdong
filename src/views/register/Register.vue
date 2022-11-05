@@ -5,59 +5,40 @@
       class="wrapper__img"
     />
     <div class="wrapper__input">
+      <input class="wrapper__input__content" placeholder="请输入手机号" />
+    </div>
+    <div class="wrapper__input">
       <input
-        v-model="data.username"
         class="wrapper__input__content"
-        placeholder="请输入手机号"
+        placeholder="请输入密码"
+        type="password"
       />
     </div>
     <div class="wrapper__input">
       <input
-        v-model="data.password"
-        type="password"
         class="wrapper__input__content"
-        placeholder="请输入密码"
+        placeholder="确认密码"
+        type="password"
       />
     </div>
-    <div class="wrapper__login-button" @click="handleLogin">登录</div>
-    <div class="wrapper__login-link" @click="handleRegisterClick">立即注册</div>
-    <Toast v-if="toastData.showToast" :message="toastData.toastMessage" />
+    <div class="wrapper__register-button" @click="handleLogin">注册</div>
+    <div class="wrapper__register-link" @click="handleLoginClick">
+      已有账号去登录
+    </div>
   </div>
 </template>
 
 <script>
-import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { post } from '@/utils/request'
-import Toast, { useToastEffect } from '@/components/Toast'
 
 export default {
-  name: 'LoginPage',
-  components: { Toast },
+  name: 'RegisterPage',
   setup () {
     const router = useRouter()
-    const data = reactive({ username: '', password: '' })
-    const { toastData, showToast } = useToastEffect()
-    const handleLogin = async () => {
-      try {
-        const result = await post('/api/user/login', {
-          username: data.username,
-          password: data.password
-        })
-        if (result?.errno === 0) {
-          localStorage.isLogin = true
-          router.push({ name: 'Home' })
-        } else {
-          showToast('登录失败')
-        }
-      } catch (e) {
-        showToast('请求失败')
-      }
+    const handleLoginClick = () => {
+      router.push({ name: 'Login' })
     }
-    const handleRegisterClick = () => {
-      router.push({ name: 'Register' })
-    }
-    return { handleLogin, handleRegisterClick, data, toastData }
+    return { handleLoginClick }
   }
 }
 </script>
@@ -103,7 +84,7 @@ export default {
     }
   }
 
-  &__login-button {
+  &__register-button {
     margin: 0.32rem 0.4rem 0.16rem 0.4rem;
     line-height: 0.48rem;
     background: #0091ff;
@@ -114,7 +95,7 @@ export default {
     text-align: center;
   }
 
-  &__login-link {
+  &__register-link {
     text-align: center;
     font-size: 0.14rem;
     color: $content-notice-fontcolor;
