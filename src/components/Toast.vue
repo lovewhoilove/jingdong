@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive, toRefs } from 'vue'
 
 export default {
   name: 'ToastView',
@@ -17,15 +17,17 @@ export const useToastEffect = () => {
   })
 
   const showToast = (message) => {
-    toastData.showToast = true
+    toastData.show = true
     toastData.toastMessage = message
     setTimeout(() => {
-      toastData.showToast = false
+      toastData.show = false
       toastData.toastMessage = ''
     }, 2000)
   }
 
-  return { toastData, showToast }
+  const { show, toastMessage } = toRefs(toastData)
+
+  return { show, toastMessage, showToast }
 }
 </script>
 
