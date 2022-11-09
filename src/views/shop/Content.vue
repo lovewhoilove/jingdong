@@ -33,12 +33,12 @@
           <div class="product__number">
             <span
               class="product__number__minus"
-              @click="() => { changeCartItemInfo(shopId, item._id, item, -1) }"
+              @click="() => { changeCartItem(shopId, shopName, item._id, item, -1) }"
             >-</span>
-            {{ item.count || 0}}
+              {{ getProductCount(shopId, item._id) }}
             <span
               class="product__number__plus"
-              @click="() => { changeCartItemInfo(shopId, item._id, item, 1) }"
+              @click="() => { changeCartItem(shopId, shopName, item._id, item, 1) }"
             >+</span>
           </div>
       </div>
@@ -49,8 +49,9 @@
 <script>
 import { reactive, ref, toRefs, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 import { get } from '@/utils/request'
-import { useCommonCartEffect } from './commonCartEffect'
+import { useCommonCartEffect } from '@/effects/cartEffect'
 
 const categories = [
   { name: '全部商品', tab: 'all' },
@@ -84,14 +85,35 @@ const useCurrentListEffect = (currentTab, shopId) => {
   return { list }
 }
 
+const useCartEffect = () => {
+  const store = useStore()
+  const { cartList, changeCartItemInfo } = useCommonCartEffect()
+  const changeShopName = (shopId, shopName) => {
+    store.commit('changeShopName', {
+      shopId, shopName
+    })
+  }
+  const changeCartItem = (shopId, shopName, productId, item, num) => {
+    changeCartItemInfo(shopId, productId, item, num)
+    changeShopName(shopId, shopName)
+  }
+
+  const getProductCount = (shopId, prodcuctId) => {
+    return cartList?.[shopId]?.productList?.[prodcuctId]?.count || 0
+  }
+
+  return { cartList, changeCartItem, getProductCount }
+}
+
 export default {
   name: 'ShopContent',
+  props: ['shopName'],
   setup () {
     const route = useRoute()
     const shopId = route.params.id
     const { currentTab, handleTabClick } = useTabEffect()
     const { list } = useCurrentListEffect(currentTab, shopId)
-    const { cartList, changeCartItemInfo } = useCommonCartEffect()
+    const { cartList, changeCartItem, getProductCount } = useCartEffect()
     return {
       categories,
       list,
@@ -99,7 +121,8 @@ export default {
       handleTabClick,
       cartList,
       shopId,
-      changeCartItemInfo
+      changeCartItem,
+      getProductCount
     }
   }
 }
@@ -216,7 +239,7 @@ export default {
       &__plus{
         border: .01rem solid $btn-bgColor;
         background: $btn-bgColor;
-        color: #fff;
+        color: $bgColor;
         margin-left: .05rem;
       }
     }

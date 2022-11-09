@@ -6,8 +6,10 @@
       :class="{'docker__item': true, 'docker__item--active': index=== 0}"
       :key="item.icon"
     >
-      <div class="iconfont" v-html="item.icon"></div>
-      <div class="docker__item__title">{{ item.text }}</div>
+      <router-link :to="item.to">
+        <div class="iconfont" v-html="item.icon"></div>
+        <div class="docker__item__title">{{ item.text }}</div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -17,10 +19,10 @@ export default {
   name: 'HomeDocker',
   setup () {
     const dockerList = [
-      { icon: '&#xe6bb;', text: '首页' },
-      { icon: '&#xe638;', text: '购物车' },
-      { icon: '&#xe7b3;', text: '订单' },
-      { icon: '&#xe663;', text: '我的' }
+      { icon: '&#xe6bb;', text: '首页', to: { name: 'Home' } },
+      { icon: '&#xe638;', text: '购物车', to: { name: 'CartList' } },
+      { icon: '&#xe7b3;', text: '订单', to: { name: 'Home' } },
+      { icon: '&#xe663;', text: '我的', to: { name: 'Home' } }
     ]
     return { dockerList }
   }
@@ -40,7 +42,6 @@ export default {
   border-top: .01rem solid $content-bgColor;
   padding: 0 .18rem;
   box-sizing: border-box;
-  color: $content-fontcolor;
 
   &__item {
     flex: 1;
@@ -57,8 +58,15 @@ export default {
       transform-origin: center top;
     }
 
+    a {
+      color: $content-fontcolor;
+      text-decoration: none;
+    }
+
     &--active {
-      color: #1fa4fc;
+      a{
+        color: #1fa4fc;
+      }
     }
   }
 }
