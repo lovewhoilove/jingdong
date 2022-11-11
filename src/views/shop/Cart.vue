@@ -22,40 +22,36 @@
           @click="() => cleanCartProducts(shopId)"
         >清空购物车</span></div>
       </div>
-      <template
+      <div
+        class="product__item"
         v-for="item in productList"
         :key="item._id"
       >
         <div
-          class="product__item"
-          v-if="item.count > 0"
-        >
-          <div
-            class="product__item__checked iconfont"
-            v-html="item.check ? '&#xe63b;':'&#xe731;'"
-            @click.stop="() => changeCartItemCheck(shopId, item._id)"
-          ></div>
-          <img class="product__item__img" :src="item.imgUrl" />
-          <div class="product__item__detail">
-            <h4 class="product__item__title">{{item.name}}</h4>
-            <p class="product__item__price">
-              <span class="product__item__yen">&yen;{{item.price}}</span>
-              <span class="product__item__origin">&yen;{{item.oldPrice}}</span>
-            </p>
-          </div>
-          <div class="product__number">
-            <span
-              class="product__number__minus"
-              @click="() => { changeCartItemInfo(shopId, item._id, item, -1) }"
-            >-</span>
-              {{ item.count}}
-            <span
-              class="product__number__plus"
-              @click="() => { changeCartItemInfo(shopId, item._id, item, 1) }"
-            >+</span>
-          </div>
+          class="product__item__checked iconfont"
+          v-html="item.check ? '&#xe63b;':'&#xe731;'"
+          @click.stop="() => changeCartItemCheck(shopId, item._id)"
+        ></div>
+        <img class="product__item__img" :src="item.imgUrl" />
+        <div class="product__item__detail">
+          <h4 class="product__item__title">{{item.name}}</h4>
+          <p class="product__item__price">
+            <span class="product__item__yen">&yen;{{item.price}}</span>
+            <span class="product__item__origin">&yen;{{item.oldPrice}}</span>
+          </p>
         </div>
-      </template>
+        <div class="product__number">
+          <span
+            class="product__number__minus"
+            @click="() => { changeCartItemInfo(shopId, item._id, item, -1) }"
+          >-</span>
+            {{ item.count}}
+          <span
+            class="product__number__plus"
+            @click="() => { changeCartItemInfo(shopId, item._id, item, 1) }"
+          >+</span>
+        </div>
+      </div>
     </div>
     <div class="check">
       <div class="check__icon">
@@ -69,7 +65,10 @@
       <div class="check__info">
         总计：<span class="check__info__price">&yen; {{ calculations.totalPrice || 0 }}</span>
       </div>
-      <div class="check__btn">
+      <div
+        class="check__btn"
+        v-show="calculations.totalCount"
+      >
         <router-link :to="{path: `/orderList/${shopId}`}">
           去结算
         </router-link>
@@ -79,38 +78,14 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { useCommonCartEffect } from '@/effects/cartEffect'
 
 const useCartEffect = (shopId) => {
   const store = useStore()
-  const { cartList, changeCartItemInfo, productList } = useCommonCartEffect(shopId)
-
-  const calculations = computed(() => {
-    const productList = cartList[shopId]?.productList
-    const result = {
-      totalCount: 0,
-      totalPrice: 0,
-      allCheck: true
-    }
-    if (productList) {
-      for (const i in productList) {
-        const product = productList[i]
-        result.totalCount += product.count
-        if (product.check) {
-          result.totalPrice += (product.count * product.price)
-        }
-        if (product.count > 0 && !product.check) {
-          result.allCheck = false
-        }
-      }
-    }
-    result.totalPrice = result.totalPrice.toFixed(2)
-    return result
-  })
-
+  const { changeCartItemInfo, productList, calculations } = useCommonCartEffect(shopId)
   const changeCartItemCheck = (shopId, prodcuctId) => {
     store.commit('changeCartItemCheck', { shopId, prodcuctId })
   }

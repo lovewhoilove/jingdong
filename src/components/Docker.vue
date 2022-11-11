@@ -3,7 +3,10 @@
   <div class="docker">
     <div
       v-for="(item, index) in dockerList"
-      :class="{'docker__item': true, 'docker__item--active': index=== 0}"
+      :class="{
+        'docker__item': true,
+        'docker__item--active': index === currentIndex
+      }"
       :key="item.icon"
     >
       <router-link :to="item.to">
@@ -17,12 +20,13 @@
 <script>
 export default {
   name: 'HomeDocker',
+  props: ['currentIndex'],
   setup () {
     const dockerList = [
       { icon: '&#xe6bb;', text: '首页', to: { name: 'Home' } },
       { icon: '&#xe638;', text: '购物车', to: { name: 'CartList' } },
-      { icon: '&#xe7b3;', text: '订单', to: { name: 'Home' } },
-      { icon: '&#xe663;', text: '我的', to: { name: 'Home' } }
+      { icon: '&#xe7b3;', text: '订单', to: { name: 'MyOrder' } },
+      { icon: '&#xe663;', text: '我的', to: { name: 'MyPage' } }
     ]
     return { dockerList }
   }

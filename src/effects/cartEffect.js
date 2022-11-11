@@ -11,8 +11,15 @@ export const useCommonCartEffect = (shopId) => {
   }
 
   const productList = computed(() => {
-    const productList = cartList[shopId]?.productList || []
-    return productList
+    const productList = cartList[shopId]?.productList || {}
+    const notEmptyProductList = {}
+    for (const i in productList) {
+      const product = productList[i]
+      if (product.count > 0) {
+        notEmptyProductList[i] = product
+      }
+    }
+    return notEmptyProductList
   })
 
   const shopName = computed(() => {
@@ -20,5 +27,34 @@ export const useCommonCartEffect = (shopId) => {
     return shopName
   })
 
-  return { cartList, changeCartItemInfo, productList, shopName }
+  const calculations = computed(() => {
+    const productList = cartList[shopId]?.productList
+    const result = {
+      totalCount: 0,
+      totalPrice: 0,
+      allCheck: true
+    }
+    if (productList) {
+      for (const i in productList) {
+        const product = productList[i]
+        result.totalCount += product.count
+        if (product.check) {
+          result.totalPrice += (product.count * product.price)
+        }
+        if (product.count > 0 && !product.check) {
+          result.allCheck = false
+        }
+      }
+    }
+    result.totalPrice = result.totalPrice.toFixed(2)
+    return result
+  })
+
+  return {
+    cartList,
+    changeCartItemInfo,
+    productList,
+    shopName,
+    calculations
+  }
 }

@@ -1,21 +1,16 @@
 <template>
   <div class="wrapper">
-    <StaticPart />
-    <Nearby />
+    我的页面
   </div>
-  <Docker :currentIndex= "0"/>
+  <Docker :currentIndex= "3" />
 </template>
 
 <script>
-import StaticPart from './StaticPart'
-import Nearby from './Nearby'
 import Docker from '@/components/Docker'
 
 export default {
-  name: 'HomePage',
+  name: 'MyPage',
   components: {
-    StaticPart,
-    Nearby,
     Docker
   }
 }
