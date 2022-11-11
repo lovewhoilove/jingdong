@@ -6,10 +6,12 @@
     <span class="iconfont position__notice">&#xe7c4;</span>
   </div>
   <!-- 搜索 -->
-  <div class="search">
-    <span class="iconfont">&#xe6ac;</span>
-    <span class="search__text">山姆会员商店优惠商品</span>
-  </div>
+  <router-link to="/search">
+    <div class="search">
+      <span class="iconfont">&#xe6ac;</span>
+        <span class="search__text">山姆会员商店优惠商品</span>
+    </div>
+  </router-link>
   <!-- 横幅 -->
   <div class="banner">
     <img
@@ -51,6 +53,7 @@ export default {
       { imgName: '大牌免运', desc: '大牌免运' },
       { imgName: '红包', desc: '红包套餐' }
     ]
+
     return { iconList }
   }
 }
@@ -88,6 +91,10 @@ export default {
   border-radius: .16rem;
   color: $search-fontColor;
   margin-bottom: .12rem;
+
+  a{
+    text-decoration: none;
+  }
 
   .iconfont{
     font-size: .15rem;
