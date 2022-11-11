@@ -42,14 +42,14 @@
         </div>
         <div class="product__number">
           <span
-            class="product__number__minus"
+            class="product__number__minus iconfont"
             @click="() => { changeCartItemInfo(shopId, item._id, item, -1) }"
-          >-</span>
+          >&#xe780;</span>
             {{ item.count}}
           <span
-            class="product__number__plus"
+            class="product__number__plus iconfont"
             @click="() => { changeCartItemInfo(shopId, item._id, item, 1) }"
-          >+</span>
+          >&#xe845;</span>
         </div>
       </div>
     </div>
@@ -178,7 +178,7 @@ export default {
   &__header {
     display: flex;
     line-height: .52rem;
-    border-bottom: 1px solid $content-bgColor;
+    border-bottom: .01rem solid $content-bgColor;
     font-size: .14rem;
     color: $content-fontcolor;
 
@@ -261,28 +261,19 @@ export default {
       position: absolute;
       bottom: .12rem;
       right: 0;
-
-      &__minus,
-      &__plus {
-        display: inline-block;
-        width: .2rem;
-        height: .2rem;
-        line-height: .18rem;
-        border-radius: 50%;
-        font-size: .2rem;
-        text-align: center;
-      }
+      line-height: .18rem;
 
       &__minus{
-        border: .01rem solid $medium-fontColor;
-        color: $medium-fontColor;
+        position: relative;
+        top:.01rem;
+        color: $btn-bgColor;
         margin-right: .05rem;
       }
 
       &__plus{
-        border: .01rem solid $btn-bgColor;
-        background: $btn-bgColor;
-        color: $bgColor;
+        position: relative;
+        top:.01rem;
+        color: $btn-bgColor;
         margin-left: .05rem;
       }
     }

@@ -32,14 +32,14 @@
           </div>
           <div class="product__number">
             <span
-              class="product__number__minus"
+              class="product__number__minus iconfont"
               @click="() => { changeCartItem(shopId, shopName, item._id, item, -1) }"
-            >-</span>
+            >&#xe780;</span>
               {{ getProductCount(shopId, item._id) }}
             <span
-              class="product__number__plus"
+              class="product__number__plus iconfont"
               @click="() => { changeCartItem(shopId, shopName, item._id, item, 1) }"
-            >+</span>
+            >&#xe845;</span>
           </div>
       </div>
     </div>
@@ -138,7 +138,7 @@ export default {
   top: 1.5rem;
   left: 0;
   right: 0;
-  bottom: .5rem;
+  bottom: .50rem;
 }
 
 .category{
@@ -218,28 +218,19 @@ export default {
       position: absolute;
       bottom: .12rem;
       right: 0;
-
-      &__minus,
-      &__plus {
-        display: inline-block;
-        width: .2rem;
-        height: .2rem;
-        line-height: .18rem;
-        border-radius: 50%;
-        font-size: .2rem;
-        text-align: center;
-      }
+      line-height: .18rem;
 
       &__minus{
-        border: .01rem solid $medium-fontColor;
+        position: relative;
+        top:.01rem;
         color: $medium-fontColor;
         margin-right: .05rem;
       }
 
       &__plus{
-        border: .01rem solid $btn-bgColor;
-        background: $btn-bgColor;
-        color: $bgColor;
+        position: relative;
+        top:.01rem;
+        color: $btn-bgColor;
         margin-left: .05rem;
       }
     }
