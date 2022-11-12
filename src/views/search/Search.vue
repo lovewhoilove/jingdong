@@ -110,6 +110,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/style/variable.scss';
+
 .wrapper {
   margin: 0 .18rem;
 }
@@ -119,19 +121,19 @@ export default {
   display: flex;
   line-height: .32rem;
   margin-top: .16rem;
-  color: #333;
+  color: $content-fontcolor;
 
   .iconfont{
     position: absolute;
     left: .16rem;
-    color: #b7b7b7;
+    color: $search-fontColor;
   }
 
   &__area{
     flex: 1;
     border: none;
     outline: none;
-    background: #f5f5f5;
+    background: $search-bgColor;
     border-radius: .16rem;
     padding: 0 .12rem 0 .44rem;
     font-size: .14rem;
@@ -149,7 +151,7 @@ export default {
   &__title{
     line-height: .22rem;
     font-size: .16rem;
-    color: #333;
+    color: $content-fontcolor;
     margin: 0;
 
     &__clear{
@@ -170,8 +172,8 @@ export default {
       display: inline-block;
       line-height: .32rem;
       font-size: .14rem;
-      background: #f5f5f5;
-      color: #666;
+      background: $search-bgColor;
+      color: $medium-fontColor;
       border-radius: .02rem;
     }
   }

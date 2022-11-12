@@ -88,7 +88,7 @@ export default {
     &__back{
       width: 0.3rem;
       line-height: .32rem;
-      color: #b6b6b6;
+      color: $search-fontColor;
       font-size: .32rem;
     }
 

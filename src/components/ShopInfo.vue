@@ -109,7 +109,7 @@ export default {
       margin: .04rem 0 0 0;
       line-height: .17rem;
       font-size: .12rem;
-      color: #333;
+      color: $content-fontcolor;
       @include ellipse;
     }
 
@@ -126,7 +126,7 @@ export default {
 
     &__origin{
       font-size: .12rem;
-      color: #999;
+      color: $light-fontColor;
       margin-left: .02rem;
       text-decoration: line-through;
     }

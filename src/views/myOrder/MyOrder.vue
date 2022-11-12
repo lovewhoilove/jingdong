@@ -1,33 +1,33 @@
 <template>
-<div class="title">我的订单</div>
-<div class="wrapper">
-  <div class="order" v-for="(item,index) in orderList" :key="index">
-    <div class="order__header">
-      <div class="order__header__title">{{item.shopName}}</div>
-      <div class="order__header__status">
-        {{item.isCanceled ? '已取消':'已下单'}}
+  <div class="title">我的订单</div>
+  <div class="wrapper">
+    <div class="order" v-for="(item,index) in orderList" :key="index">
+      <div class="order__header">
+        <div class="order__header__title">{{item.shopName}}</div>
+        <div class="order__header__status">
+          {{item.isCanceled ? '已取消':'已下单'}}
+        </div>
       </div>
-    </div>
-    <div class="order__content">
-      <div class="order__content__imgs">
-        <template
-          v-for="(innerItem,innerIndex) in item.products"
-          :key="innerIndex"
-        >
-          <img
-            class="order__content__img"
-            :src="innerItem.product.img"
-            v-if="innerIndex < 4"
-          />
-        </template>
-      </div>
-      <div class="order__content__info">
-        <div class="order__content__price">&yen; {{item.totalPrice}}</div>
-        <div class="order__content__count">共  {{item.totalCount}} 件</div>
+      <div class="order__content">
+        <div class="order__content__imgs">
+          <template
+            v-for="(innerItem,innerIndex) in item.products"
+            :key="innerIndex"
+          >
+            <img
+              class="order__content__img"
+              :src="innerItem.product.img"
+              v-if="innerIndex < 4"
+            />
+          </template>
+        </div>
+        <div class="order__content__info">
+          <div class="order__content__price">&yen; {{item.totalPrice}}</div>
+          <div class="order__content__count">共  {{item.totalCount}} 件</div>
+        </div>
       </div>
     </div>
   </div>
-</div>
   <Docker :currentIndex= "2" />
 </template>
 
