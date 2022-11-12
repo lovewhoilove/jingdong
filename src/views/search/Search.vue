@@ -28,20 +28,21 @@
           class="area__list__item"
           v-for="(item,index) in history"
           :key="index"
+          @click="() => goToSearchValue(item)"
         >{{item}}</li>
       </ul>
     </div>
     <div class="area">
       <h3 class="area__title">热门搜索</h3>
       <ul class="area__list">
-        <li class="area__list__item">尖椒肉丝</li>
-        <li class="area__list__item">鲜花</li>
-        <li class="area__list__item">山姆会员商店</li>
-        <li class="area__list__item">新鲜水果</li>
-        <li class="area__list__item">生日鲜花</li>
-        <li class="area__list__item">香槟玫瑰</li>
-        <li class="area__list__item">酸奶</li>
-        <li class="area__list__item">牛奶</li>
+        <li
+          class="area__list__item"
+          v-for="(item,index) in hotWordList"
+          :key="index"
+          @click="() => goToSearchValue(item)"
+        >
+          {{item}}
+        </li>
       </ul>
     </div>
   </div>
@@ -50,6 +51,18 @@
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { get } from '@/utils/request'
+
+const useHotWordListEffect = () => {
+  const hotWordList = ref([])
+  const getHotWordList = async () => {
+    const result = await get('/api/shop/search/hot-words')
+    if (result?.errno === 0 && result?.data?.length) {
+      hotWordList.value = result.data
+    }
+  }
+  return { hotWordList, getHotWordList }
+}
 
 export default {
   name: 'SearchView',
@@ -77,7 +90,21 @@ export default {
       localStorage.history = JSON.stringify([])
     }
 
-    return { history, handleSearchChange, handleCancelSearchClick, handleClearHistoryClick }
+    const { hotWordList, getHotWordList } = useHotWordListEffect()
+    getHotWordList()
+
+    const goToSearchValue = (keyword) => {
+      router.push(`/searchList?keyword=${keyword}`)
+    }
+
+    return {
+      history,
+      hotWordList,
+      handleSearchChange,
+      handleCancelSearchClick,
+      handleClearHistoryClick,
+      goToSearchValue
+    }
   }
 }
 </script>

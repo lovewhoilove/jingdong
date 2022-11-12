@@ -14,6 +14,23 @@
         <span class="shop__content__tag">基础运费&yen;{{ item.expressPrice }}</span>
       </div>
       <p class="shop__content__highlight">{{ item.slogan }}</p>
+      <div
+        class="shop__products"
+        v-if="item.products"
+      >
+        <div
+          class="shop__product"
+          v-for="(product,index) in item.products"
+          :key="index"
+        >
+          <img :src="product.imgUrl" class="shop__product__img"/>
+          <div class="shop__product__title">{{product.name}}</div>
+          <div class="shop__product__price">
+            <span class="shop__product__new">&yen;{{product.price}}</span>
+            <span class="shop__product__origin">&yen;{{product.oldPrice}}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -29,6 +46,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/style/variable.scss';
+@import '@/style/mixins.scss';
 
 .shop{
   display: flex;
@@ -69,6 +87,48 @@ export default {
       line-height: .18rem;
       font-size: .13rem;
       color:$highlight-fontColor;
+    }
+  }
+
+  &__products{
+    overflow: hidden;
+    margin: .08rem .07rem 0 -.14rem;
+  }
+
+  &__product{
+    box-sizing: border-box;
+    padding-left: .14rem;
+    width: 33.3%;
+    float: right;
+
+    &__img{
+      width: 100%;
+    }
+
+    &__title{
+      margin: .04rem 0 0 0;
+      line-height: .17rem;
+      font-size: .12rem;
+      color: #333;
+      @include ellipse;
+    }
+
+    &__price{
+      line-height: .2rem;
+      margin: .02rem 0 0 0;
+      @include ellipse;
+    }
+
+    &__new{
+      font-size: .14rem;
+      color: $highlight-fontColor;
+    }
+
+    &__origin{
+      font-size: .12rem;
+      color: #999;
+      margin-left: .02rem;
+      text-decoration: line-through;
     }
   }
 }
