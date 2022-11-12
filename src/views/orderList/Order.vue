@@ -2,6 +2,7 @@
   <div class="order">
     <div class="order__price">实付金额&nbsp;<b>&yen;{{calculations.totalPrice}}</b></div>
     <div
+    v-show="showSubmitBtn"
       class="order__btn"
       @click="() => handleSubmitClick(true)"
     >提交订单</div>
@@ -35,7 +36,7 @@ import { useStore } from 'vuex'
 import { post } from '@/utils/request'
 import { useCommonCartEffect } from '@/effects/cartEffect'
 
-const useMakeOrderEffect = (shopId) => {
+const useMakeOrderEffect = (shopId, id) => {
   const router = useRouter()
   const store = useStore()
   const { shopName, calculations, productList } = useCommonCartEffect(shopId)
@@ -50,7 +51,7 @@ const useMakeOrderEffect = (shopId) => {
     }
     try {
       const result = await post('/api/order', {
-        addressId: 1,
+        addressId: id,
         shopId,
         shopName: shopName.value,
         isCanceled,
@@ -84,9 +85,15 @@ export default {
   setup () {
     const route = useRoute()
     const shopId = parseInt(route.params.id, 10)
-    const { calculations, handleConfirmOrder } = useMakeOrderEffect(shopId)
+    const { calculations, handleConfirmOrder } = useMakeOrderEffect(shopId, route.query.id)
     const { showConfirm, handleSubmitClick } = useShowMaskEffect()
-    return { showConfirm, calculations, handleSubmitClick, handleConfirmOrder }
+    return {
+      showSubmitBtn: !!route.query.id,
+      showConfirm,
+      calculations,
+      handleSubmitClick,
+      handleConfirmOrder
+    }
   }
 }
 </script>

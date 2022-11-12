@@ -8,12 +8,20 @@
       >&#xe6db;</div>
       确认订单
     </div>
-    <div class="top__receiver">
+    <div class="top__receiver" @click="handleAddressClick">
       <div class="top__receiver__title">收货地址</div>
-      <div class="top__receiver__address">北京理工大学国防科技园2号楼10层</div>
-      <div class="top__receiver__info">
-        <span class="top__receiver__info__name">张三（先生）</span>
-        <span class="top__receiver__info__phone">18911024266</span>
+      <div v-if="hasAddress" class="top__receiver__address">
+        {{data.city}}{{data.department}}{{data.houseNumber}}
+      </div>
+      <div v-else class="top__receiver__address">
+        请选择收货地址
+      </div>
+      <div
+        v-if="hasAddress"
+        class="top__receiver__info"
+      >
+        <span class="top__receiver__info__name">{{data.name}}</span>
+        <span class="top__receiver__info__phone">{{data.phone}}</span>
       </div>
       <div class="top__receiver__icon iconfont">&#xe6f8;</div>
     </div>
@@ -21,16 +29,43 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
+import { onBeforeMount, reactive } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { get } from '@/utils/request'
 
 export default {
   name: 'TopArea',
   setup () {
     const router = useRouter()
+    const route = useRoute()
+    const data = reactive({})
+    const id = route.query.id
     const handleBackClick = () => {
       router.back()
     }
-    return { handleBackClick }
+
+    const handleAddressClick = () => {
+      router.push(`/addressSelect?path=${route.path}`)
+    }
+
+    onBeforeMount(async () => {
+      if (id) {
+        const result = await get(`/api/user/address/${id}`)
+        if (result?.errno === 0) {
+          data.city = result.data.city
+          data.department = result.data.department
+          data.houseNumber = result.data.houseNumber
+          data.name = result.data.name
+          data.phone = result.data.phone
+        }
+      }
+    })
+    return {
+      hasAddress: !!id,
+      data,
+      handleBackClick,
+      handleAddressClick
+    }
   }
 }
 </script>

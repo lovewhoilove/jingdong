@@ -1,11 +1,6 @@
 <template>
   <div class="wrapper">
-    <div class="title">
-      管理收货地址
-      <span class="title__create">
-        <router-link to="/addressEdit">新建</router-link>
-      </span>
-    </div>
+    <div class="title">地址选择</div>
     <div class="address">
       <div
         class="address__item"
@@ -17,19 +12,18 @@
           {{item.name}}
           <span class="address__item__phone">{{item.phone}}</span>
         </div>
-        <div class="address__item__address">{{item.city}} {{item.department}} {{item.houseNumber}}</div>
-        <div class="address__item__icon iconfont">&#xe6f8;</div>
+        <div class="address__item__address">
+          {{item.city}} {{item.department}} {{item.houseNumber}}
+        </div>
       </div>
     </div>
   </div>
-  <Docker :currentIndex= "3" />
 </template>
 
 <script>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { get } from '@/utils/request'
-import Docker from '@/components/Docker'
 
 const useAddressListEffect = () => {
   const addressList = ref([])
@@ -43,16 +37,15 @@ const useAddressListEffect = () => {
 }
 
 export default {
-  name: 'MyPage',
-  components: {
-    Docker
-  },
+  name: 'AddressSelect',
   setup () {
     const router = useRouter()
+    const route = useRoute()
     const { addressList, getAddressList } = useAddressListEffect()
     getAddressList()
     const handleAddressEdit = (id) => {
-      router.push(`/addressEdit?id=${id}`)
+      const path = route.query.path
+      router.push(`${path}?id=${id}`)
     }
     return { addressList, handleAddressEdit }
   }
@@ -68,7 +61,7 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  bottom: .49rem;
+  bottom: 0;
   background: $order-bgColor;
 
   .title{
@@ -78,17 +71,6 @@ export default {
     background: $bgColor;
     font-size: .16rem;
     color: $content-fontcolor;
-
-    &__create{
-      position: absolute;
-      right: .18rem;
-      font-size: .14rem;
-
-      a{
-        text-decoration: none;
-        color: $content-fontcolor;
-      }
-    }
   }
 
   .address{
@@ -114,15 +96,6 @@ export default {
       &__address{
         margin-top: .08rem;
         color: $content-fontcolor;
-      }
-
-      &__icon{
-        position: absolute;
-        top: 50%;
-        right: .16rem;
-        transform: translate(0, -50%);
-        color: $medium-fontColor;
-        font-size: .20rem;
       }
     }
   }
